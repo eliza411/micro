@@ -5,6 +5,8 @@ api = 2
 projects[drupal][version] = "7.x"
 
 ; Modules
+projects[wysiwyg][verstion] = "2.1"
+
 projects[colors][version] = "1.0-beta2"
 
 projects[fullcalendar][version] = "2.0-beta3"
