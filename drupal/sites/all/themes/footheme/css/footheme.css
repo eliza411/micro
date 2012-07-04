@@ -1,0 +1,14 @@
+/**
+ * Footheme footheme.css
+ *
+ * Use this file to add your custom styles.
+ *
+ * You can change the name of this file, just
+ * remember to update the name in the info file
+ * as well.
+ */
+
+#block-superfish-2 .sf-menu a {
+  margin: 3px;
+  padding: 10px;
+}
