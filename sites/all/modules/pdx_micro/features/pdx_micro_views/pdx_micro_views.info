@@ -1,0 +1,12 @@
+name = PDX Micro Views
+description = Views for the PDX Micro Events Site
+core = 7.x
+package = PDX Micro
+version = 7.x-1.0-alpha1
+project = pdx_micro_views
+dependencies[] = ctools
+dependencies[] = views
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:1
+features[views_view][] = calendar
+features[views_view][] = events

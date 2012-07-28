@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the PDX Micro Events feature.
+ */
+
+include_once 'pdx_micro_events.features.inc';

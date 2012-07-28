@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the PDX Micro Views feature.
+ */
+
+include_once 'pdx_micro_views.features.inc';
