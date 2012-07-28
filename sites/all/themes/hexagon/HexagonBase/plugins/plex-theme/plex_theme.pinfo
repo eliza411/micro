@@ -1,0 +1,29 @@
+name        = Plex Theme Registry
+description = Enables granular separation of code for themable output and fixes a core limitation in how variable processors are handled. 
+hexapi      = HEX_API
+protected   = true
+
+; Default settings. Everything enabled. set to false to opt-out but do it from
+; the theme with the plug-in prefix.
+;
+; example:
+; settings[plex_theme.core_fix] = false
+; settings[plex_theme.implicit_hook_registration] = true
+; settings[plex_theme.load_on_demand] = true
+; etc...
+;
+; The first base theme with the settings will stick. Sub-themes cannot override
+; these values.
+
+settings[core_fix] = true
+settings[core_fix:suggestions_handles_base] = true
+settings[core_fix:base_handles_suggestions] = true
+
+settings[implicit_hook_registration] = true
+settings[implicit_hook_registration:from_processors] = true
+settings[implicit_hook_registration:from_vars_inc]   = true
+
+settings[load_on_demand] = true
+settings[load_on_demand:theme_inc] = true
+settings[load_on_demand:func_inc]  = true
+settings[load_on_demand:vars_inc]  = true

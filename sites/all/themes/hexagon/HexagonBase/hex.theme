@@ -1,0 +1,613 @@
+<?php
+
+/**
+ * Hexagon API version. Only relevant to plug-ins.
+ */
+define('HEX_API', '2.x');
+
+/**
+ * Hexagon base includes path.
+ */
+define('HEX_INCLUDES', DRUPAL_ROOT . '/' . drupal_get_path('theme', 'hex') . '/includes');
+
+/**
+ * The active theme key. The global theme_key can change mid execution.
+ * This constant on the other hand will hold its initial value.
+ */
+define('HEX_ACTIVE_THEME', $GLOBALS['theme_key']);
+
+/**
+ * Used in building and retrieving settings.
+ */
+define('HEX_FIRST_PARENT', '#first_parent');
+define('HEX_LAST_CHILD',   '#last_child');
+
+/**
+ * Registers autoloader for classes and interfaces.
+ */
+spl_autoload_register('hex_autoload');
+
+
+/**
+ * Implements hook_init().
+ *
+ * Hex doesn't use phptemplate engine. It is implemented as a standalone theme
+ * which results in the theme engine pointing to a non-existent "theme". This
+ * is why theme_init() is called.
+ */
+function theme_init($info) {
+  if ($info->name === 'hex') {
+    // Observe the theme registry to see if it was cleared.
+    if (hex_theme_was_rebuilt()) {
+      // Follow the theme registry state and refresh hexagon caches.
+      hex_cache_refresh();
+      // Load functions needed for rebuilding.
+      hex_code_category('build');
+    }
+  }
+  // Includes template.php files that are usually picked up by
+  // phptemplate.engine. It's included here due to familiarity.
+  if (is_file($file = hex()->path($info->name) . '/template.php')) {
+    include_once DRUPAL_ROOT . '/' . $file;
+  }
+  if (function_exists($init = "{$info->name}_initialize")) $init();
+  // Process plug-ins hosted in current theme.
+  foreach (hex()->listType('plugin', $info->name) as $plugin) {
+    if (is_file($file = hex()->path($plugin) . "/$plugin.plug.inc")) {
+      include_once DRUPAL_ROOT . '/' . $file;
+    }
+    if (function_exists($init = "{$plugin}_initialize")) $init();
+    // Add styles and scripts.
+    foreach (hex()->info('stylesheets', $plugin) as $media => $stylesheets) {
+      foreach ($stylesheets as $stylesheet) {
+        drupal_add_css(hex()->path($plugin) . '/' . $stylesheet, array('group' => CSS_THEME, 'every_page' => TRUE, 'media' => $media));
+      }
+    }
+    foreach (hex()->info('scripts', $plugin) as $script) {
+      drupal_add_js(hex()->path($plugin) . '/' . $script, array('group' => JS_THEME, 'every_page' => TRUE));
+    }
+  }
+}
+
+
+/**
+ * Holds the theming context and information about various components.
+ *
+ * TODO: Documentation.
+ */
+function hex() {
+  static $hex;
+  if (!isset($hex)) {
+    $hex = new HexBase();
+    $hex->attach(new HexThemes())->attach(new HexPlugins());
+  }
+  return $hex;
+}
+
+
+/**
+ * @defgroup hex_cache Hex Cache API
+ * @{
+ * TODO: documentation.
+ *
+ * @} End of "defgroup hex_cache".
+ */
+
+/**
+ * Wrapper for drupal_static() to distinguish calls specific to hexagon.
+ *
+ * This works like drupal_static() but when clearing static caches, only the
+ * calls done through this function will be cleared when invoking
+ * hex_static_reset(). This prevents static caching in other parts of Drupal
+ * from being cleared which can be very expensive.
+ *
+ * Additional notes:
+ * - The return value is not directly referenced through the function like it
+ *   is done with drupal_static(). This returns an object with a "data"
+ *   property which is referenced to the static value. The object maintains
+ *   the reference to the caller, not the function call itself. This is the
+ *   default behavior of PHP 5 when passing around objects.
+ * - The static fast pattern seen in core is not needed to maintain the
+ *   pointer to the referenced data.
+ * - Switching the theme context or calling hex_cache_refresh() will
+ *   automatically clear all static caches.
+ * - Clearing all static caches through drupal_static_reset() will also clear
+ *   the caches set through here since this is a wrapper for the core function.
+ *
+ * @see drupal_static()
+ * @see hex_static_reset()
+ *
+ * @param $name
+ *  Globally unique name for the variable. For a function with only one static,
+ *  variable, the function name (e.g. via the PHP magic __FUNCTION__ constant)
+ *  is recommended. For a function with multiple static variables add a
+ *  distinguishing suffix to the function name for each one. This can be
+ *  set to NULL for resetting all the static data.
+ * @param $default_value
+ *  Optional default value.
+ * @param $reset
+ *  Resets the static data. This is normally set from hex_static_reset().
+ *
+ * @return
+ *  Returns an object pointing to referenced data for the given $name. If the
+ *  $name is omitted in order to reset all caches, nothing will be returned.
+ *
+ * @ingroup hex_cache
+ */
+function hex_static($name, $default_value = NULL, $reset = FALSE) {
+  static $static;
+  if (isset($name)) {
+    if (!isset($static[$name])) {
+      $object        = new stdClass();
+      $object->name  = $name;
+      $object->data  = &drupal_static($name, $default_value);
+      $static[$name] = $object;
+    }
+    elseif ($reset) {
+      drupal_static_reset($name);
+    }
+    // Return the static object only when a $name is given.
+    return $static[$name];
+  }
+  elseif ($reset) {
+    // Reset all.
+    foreach ($static as $object) drupal_static_reset($object->name);
+  }
+}
+
+/**
+ * Reset one or all stored static objects set through hex_static().
+ *
+ * Behaves like drupal_static_reset() except that this will only clear static
+ * values set through hex_static().
+ *
+ * @see hex_static()
+ *
+ * @param $name
+ *  Name of the static variable to reset. Omit to reset all static objects.
+ *
+ * @ingroup hex_cache
+ */
+function hex_static_reset($name = NULL) {
+  hex_static($name, NULL, TRUE);
+}
+
+/**
+ * Gets the cache for the given $cache_key.
+ *
+ * @param $cache_key
+ *  The cache key for the build.
+ *
+ * @return
+ *  Cache object.
+ *
+ * @ingroup hex_cache
+ */
+function hex_cache($cache_key) {
+  static $caches;
+  if (!isset($caches)) $caches = hex_static(__FUNCTION__);
+  if (!isset($caches->data[$cache_key])) {
+    $caches->data[$cache_key] = new HexCache($cache_key);
+  }
+  return $caches->data[$cache_key];
+}
+
+/**
+ * Refreshes the cache.
+ *
+ * @param $cache_key
+ *  The cache key to clear. Leave blank to clear all caches.
+ *
+ * @ingroup hex_cache
+ */
+function hex_cache_refresh($cache_key = NULL) {
+  if (isset($cache_key)) {
+    hex_cache($cache_key)->refresh()->fetch();
+  }
+  else {
+    if ($cache_info = cache_get('hex_cache_info:' . hex()->theme(), 'cache')) {
+      foreach (array_keys($cache_info->data) as $cache_key) {
+        hex_cache($cache_key)->refresh()->fetch();
+      }
+    }
+  }
+}
+
+
+/**
+ * @defgroup hex_theme_registry Hex Theme Registry
+ * @{
+ * TODO: documentation.
+ *
+ * @} End of "defgroup hex_theme_registry".
+ */
+
+/**
+ * Clears the theme registry and info data.
+ *
+ * Clearing the theme registry is normally done through drupal_theme_rebuild()
+ * which clears it for all modules and themes. Clearing it with this function
+ * is focused on the current theme. This will also clear all theme info data
+ * with system_rebuild_theme_data() and hexagon based caches.
+ *
+ * Note that when the theme registry is cleared by other means, hexagon based
+ * caches will follow.
+ *
+ * @see hex_theme_was_rebuilt()
+ * @see drupal_theme_rebuild()
+ * @see system_rebuild_theme_data()
+ *
+ * @ingroup hex_theme_registry
+ */
+function hex_theme_rebuild() {
+  system_rebuild_theme_data();
+  cache_clear_all('theme_registry:' . hex()->theme(), 'cache');
+}
+
+/**
+ * Checks if the theme registry was rebuilt.
+ *
+ * @see hex_theme_rebuild()
+ *
+ * @ingroup hex_theme_registry
+ */
+function hex_theme_was_rebuilt() {
+  static $cleared = FALSE;
+  // If it is ever cleared, maintain the cleared flag.
+  if (!$cleared) $cleared = cache_get('theme_registry:' . HEX_ACTIVE_THEME, 'cache') === FALSE;
+  return $cleared;
+}
+
+
+/**
+ * @defgroup hex_settings Hex Theme Settings
+ * @{
+ * TODO: documentation.
+ *
+ * @} End of "defgroup hex_settings".
+ */
+
+/**
+ * A more flexible version of core's theme_get_setting().
+ *
+ * The default behavior is to obtain the setting from the saved value of the
+ * child-most active theme. When it does not exist it will fall back to its
+ * parent(s) until a value is found. The saved values are set from the theme
+ * settings form, e.g., 'example.com/admin/appearance/settings/theme_key'.
+ *
+ * If there are no saved values, it will search within the info file for
+ * active themes and plug-ins. The fallback behavior is the same as the saved
+ * settings.
+ *
+ * The above describes the default behavior of HEX_LAST_CHILD. When the
+ * $source parameter is set to HEX_FIRST_PARENT, it will do the complete
+ * opposite, i.e., it searches the base for values and falls forward until a
+ * sub-theme is found with the value. Note that falling forward does not go
+ * beyond the theme that is in current focus. When working within the theme
+ * specific settings form, the focus is set to the theme that owns the form.
+ * In other areas, the theme in focus is the running theme.
+ *
+ * If there is no need to fall back or forward, the theme key can be passed
+ * to $source. The saved or info default fallback settings will be returned.
+ *
+ * @param $name
+ *  The name of the setting to be retrieved. It can be a plain string, named
+ *  hierarchy or parent conditional.
+ *  - named hierarchy:
+ *    This is similar to the DNS namespace in terms of hierarchy but strung
+ *    together in reverse. The left most element is the root of the setting
+ *    which will return an array of settings. You can traverse any child
+ *    setting with the dot to get more specific data, e.g., 'parent.child.etc'.
+ *  - parent conditional:
+ *    This depends on a parent value before revealing its own value. Assuming
+ *    the hypothetical 'power' setting has a value, 'power:lights' will return
+ *    its own value. Without the parent, 'power:lights' will always return
+ *    an empty value.
+ * @param $source
+ *  Can be a theme key which will restricted it to a specific theme. Other
+ *  sensible values are HEX_LAST_CHILD (default) or HEX_FIRST_PARENT. Note
+ *  that HEX_ACTIVE_THEME is keyed to the active theme and can be used to
+ *  restrict it to the running theme. Setting a theme key outside the range of
+ *  the current theme targets will trigger a notice.
+ *
+ * @ingroup hex_settings
+ */
+function hex_settings($name, $source = HEX_LAST_CHILD) {
+  // TODO: This will be reimplemented using HexSettings class.
+  $settings = hex_cache('settings')->data;
+  if (!$setting = &$settings[$name][$source]) {
+    $setting = &$settings["FALLBACK__$name"][$source];
+  }
+  if (isset($setting) && isset($setting->parents)) {
+    $parents = array();
+    foreach ($setting->parents as $parent) {
+      if (!$parent_data = &$settings[$parent][$source]) {
+        $parent_data = &$settings["FALLBACK__$parent"][$source];
+      }
+      if (empty($parent_data->value)) $setting->value = NULL; break;
+    }
+  }
+  return isset($setting) ? $setting->value : NULL;
+}
+
+/**
+ * @defgroup hex_code_registry Hex Code Registry
+ * @{
+ * TODO: documentation.
+ *
+ * @} End of "defgroup hex_code_registry".
+ */
+
+/**
+ * Loads functions from the code registry and checks if the function exists.
+ *
+ * @ingroup hex_code_registry
+ */
+function hex_function_exists($name) {
+  static $exists;
+  if (!isset($exists)) $exists = hex_static(__FUNCTION__);
+  if (isset($exists->data[$name])) return $exists->data[$name];
+  return $exists->data[$name] = function_exists($name) || hex_load($name, 'function');
+}
+
+/**
+ * Auto loads classes and interfaces.
+ *
+ * This shouldn't be called directly. Registered with spl_autoload_register.
+ *
+ * @ingroup hex_code_registry
+ */
+function hex_autoload($name) {
+  static $loaded;
+  if (!isset($loaded)) $loaded = hex_static(__FUNCTION__);
+  if (isset($loaded->data[$name])) return $loaded->data[$name];
+  return $loaded->data[$name] = hex_load($name, 'class') || hex_load($name, 'interface');
+}
+
+/**
+ * Loads items from the code registry.
+ *
+ * @param $name
+ *  The name of the item.
+ * @param $type
+ *  The type of element to load. It can be a 'function', 'class' or
+ *  an 'interface'.
+ *
+ * @ingroup hex_code_registry
+ */
+function hex_load($name, $type = 'function') {
+  static $loaded;
+  if (!isset($loaded)) $loaded = hex_static(__FUNCTION__);
+  $load_state = &$loaded->data["$name:$type"];
+  if (is_bool($load_state)) return $load_state;
+
+  $base_loader = array(
+    'function' => array(
+      'hex_code_registry_build' => 'base.build.inc',
+      'hex_plugins_build'       => 'base.build.inc',
+      'hex_settings_build'      => 'base.build.inc',
+    ),
+    'class' => array(
+      'HexBase'                => 'base.class.inc',
+      'HexThemes'              => 'base.class.inc',
+      'HexPlugins'             => 'base.class.inc',
+      'HexCache'               => 'base.class.inc',
+      'HexModules'             => 'base.admin.class.inc',
+      'HexThemeContextSetter'  => 'base.admin.class.inc',
+      'HexCacheBuild'          => 'base.admin.class.inc',
+      'HexPluginScanner'       => 'base.build.class.inc',
+      'HexBuildPlugins'        => 'base.build.class.inc',
+      'HexBuildFeatures'       => 'base.build.class.inc',
+      'HexBuildSettings'       => 'base.build.class.inc',
+      'HexBuildRegistry'       => 'base.build.class.inc',
+      'HexNameSpaces'          => 'base.tools.class.inc',
+      'HexFileScanner'         => 'base.tools.class.inc',
+      'HexContentScanner'      => 'base.tools.class.inc',
+    ),
+    'interface' => array(
+      'HexComponentsInterface' => 'base.class.inc',
+    ),
+  );
+  if (isset($base_loader[$type][$name])) {
+    require_once HEX_INCLUDES . '/' . $base_loader[$type][$name];
+    $load_state = TRUE;
+  }
+  else {
+    $registry = hex_cache('code_registry')->data;
+    if ($file_id = &$registry[$type][$name]) {
+      if (is_file($file = $registry['includes'][$file_id]->uri)) {
+        require_once DRUPAL_ROOT . '/' . $file;
+        $load_state = TRUE;
+      }
+      elseif ($load_state !== -1) {
+        // If it's not pointing to a file, the cache is outdated.
+        // Refresh and call again.
+        hex_cache_refresh('code_registry');
+        $load_state = -1;
+        $load_state = hex_load($name, $types);
+      }
+      else {
+        // Something went wrong with the build.
+        trigger_error(t('Unknown error while trying to load %var.', array('%var' => $name)), E_USER_ERROR);
+        $load_state = FALSE;
+      }
+    }
+  }
+  // Doesn't exist in the code registry.
+  if (!isset($load_state)) $load_state = FALSE;
+
+  return $load_state;
+}
+
+/**
+ * Loads files based on category.
+ *
+ * @param $namespace
+ *  The namespace based on a defined root category.
+ * @param $load
+ *  Includes the files. This is done by default.
+ *
+ * @return
+ *  Array of files associated with the $namespace.
+ *
+ * @ingroup hex_code_registry
+ */
+function hex_code_category($namespace, $load = TRUE) {
+  $includes = array();
+  foreach (hex_cache('code_registry')->data['includes'] as $file) {
+    if (isset($file->categories[$namespace])) {
+      $includes[$file->uri] = !is_file($file->uri);
+    }
+  }
+  // Check for outdated registry.
+  if (array_filter($includes)) {
+    // Refresh.
+    if (!is_int($load)) {
+      hex_cache_refresh('code_registry');
+      $includes = hex_code_category($namespace, $load ? 1 : 0);
+    }
+    else {
+      // Something went wrong with the build.
+      trigger_error(t('Unknown error while trying to load %var.', array('%var' => $namespace)), E_USER_ERROR);
+    }
+  }
+  else {
+    $includes = array_keys($includes);
+    if ($load) foreach ($includes as $inc) require_once DRUPAL_ROOT . '/' . $inc;
+  }
+  return $includes;
+}
+
+
+/**
+ * @defgroup hex_plugin_alters Hex Plug-in Alters
+ * @{
+ * TODO: documentation.
+ *
+ * @} End of "defgroup hex_plugin_alters".
+ */
+
+/**
+ * Implements hook_css_alter().
+ *
+ * @see drupal_get_css()
+ *
+ * @ingroup hex_plugin_alters
+ */
+function hex_css_alter(&$css) {
+  hex_plugin_alter(__FUNCTION__, $css);
+}
+
+/**
+ * Implements hook_theme_registry_alter().
+ *
+ * @see _theme_build_registry()
+ *
+ * @ingroup hex_plugin_alters
+ */
+function hex_theme_registry_alter(&$cache) {
+  hex_plugin_alter(__FUNCTION__, $cache);
+}
+
+
+/**
+ * Does the work of giving plug-in's the chance to alter data.
+ *
+ * Since drupal_alter is regulated to modules and themes, a theme must
+ * implement a hook alter function and call this function in order to enable
+ * hook alter for the plug-ins.
+ *
+ * This is the expected order of execution:
+ *  - base theme 1
+ *    - plug-in 1A
+ *    - plug-in 1B
+ *    - plug-in 1C
+ *  - sub-theme 2
+ *    - plug-in 2A
+ *    - plug-in 2B
+ *    - plug-in 2C
+ *  - sub-theme 3
+ *    - plug-in 3A
+ *    - etc...
+ *
+ * If base theme 1 implements hook alter and calls hex_plugin_alter(), this
+ * allows all plug-ins it hosts to have a hand in the alter process. It will
+ * also allow sub-themes 2 and 3 to have their plug-ins in the alter process
+ * but there is a catch. If sub-theme 2 implements hook alter, the call from
+ * base theme 1 will ignore the plug-ins for sub-themes 2 and 3.
+ *
+ * This is done to keep the order of execution consistent. If the call from
+ * the base theme processes all plug-ins for all sub-themes, then the hook
+ * alter that may be invoked from the sub-theme would be completely out of
+ * order. Since drupal_alter() does not natively play with plug-ins, this hard
+ * rule is in place to make it predictable.
+ *
+ * When a sub-theme implements hook alter, make sure this function is called
+ * as well to continue the plug-in alter call.
+ *
+ * @see drupal_alter()
+ *
+ * @param $host_function
+ *  The name of the caller function. It must pass the '__FUNCTION__' magic
+ *  method and it must be the host theme for the plug-in that needs an alter
+ *  hook.
+ * @param $data
+ *  The variable that will be passed to hook_TYPE_alter() implementations to
+ *  be altered. The type of this variable depends on the value of the $type
+ *  argument.
+ * @param $context1
+ *  (optional) An additional variable that is passed by reference.
+ * @param $context2
+ *  (optional) An additional variable that is passed by reference.
+ *
+ * @ingroup hex_plugins
+ */
+function hex_plugin_alter($host_function, &$data, &$context1 = NULL, &$context2 = NULL) {
+  static $static;
+  if (!isset($static)) {
+    $static = hex_static(__FUNCTION__);
+  }
+  $functions = &$static->data[$host_function];
+
+  if (!isset($functions)) {
+    $functions = array();
+
+    // Find alter type and all implementations for the type.
+    // $type and $hook_alters used outside of loop:
+    $alters = drupal_static('drupal_alter');
+    foreach ($alters as $type => $hook_alters) if (in_array($host_function, $hook_alters)) break;
+
+    // Find the $host_function in the $hook_alters stack. Start checking for
+    // implementations from there down through sub-themes for another
+    // implementation. When the second implementation is found, it will break
+    // out of the loop. This helps fill the gap when a child theme does not
+    // have an alter function but it contains plug-ins that do.
+    $theme_alters = array();
+    $offset = FALSE;
+    foreach (hex()->listType('theme') as $theme) {
+      $hook_alter   = "{$theme}_{$type}_alter";
+      $alter_exists = in_array($hook_alter, $hook_alters);
+      // Condition initially satisfied when $host_function matches known
+      // implementation. Second $offset condition matches after the first.
+      if ($host_function === $hook_alter || $offset) {
+        // Break after the condition matches and another sub-theme
+        // implementation is found.
+        if ($alter_exists && $offset) break;
+        $theme_alters[] = $theme;
+        $offset = TRUE;
+      }
+    }
+    // Generate plug-in alter functions.
+    foreach ($theme_alters as $host) {
+      foreach (hex()->listType('plugin') as $key => $plugin) {
+        if (strpos($key, ":{$host}:") !== FALSE && hex_function_exists($func = "{$plugin}_{$type}_alter")) {
+          $functions[] = $func;
+        }
+      }
+    }
+  }
+  // Execute!
+  foreach ($functions as $function) {
+    $function($data, $context1, $context2);
+  }
+}

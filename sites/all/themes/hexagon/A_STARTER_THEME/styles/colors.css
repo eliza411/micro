@@ -1,0 +1,41 @@
+
+body {
+  color: #444444;
+  background-color: #ffffff;
+}
+
+a:link {
+  color: #357ab2;
+}
+a:visited {
+  color: #6b8498;
+}
+a:hover,
+a:focus,
+a:active {
+  color: #b28500;
+}
+
+td,
+fieldset,
+textarea {
+  border-color: #cccccc;
+}
+tr.even {
+  background-color: #f6f6f0;
+}
+tr.odd {
+  background-color: #ffffff;
+}
+
+html.js table.sticky-enabled,
+#autocomplete {
+  -webkit-box-shadow: 0 .1em .2em #aaaaaa;
+     -moz-box-shadow: 0 .1em .2em #aaaaaa;
+          box-shadow: 0 .1em .2em #aaaaaa;
+}
+html.js table.sticky-header {
+  -webkit-box-shadow: 0 .2em .2em #aaaaaa;
+     -moz-box-shadow: 0 .2em .2em #aaaaaa;
+          box-shadow: 0 .2em .2em #aaaaaa;
+}

@@ -1,0 +1,19 @@
+name = Hexagon
+description = A base framework.
+core   = 7.x
+php    = 5.3
+engine = theme
+hidden = TRUE
+
+hex code categories[] = class
+hex code categories[] = interface
+hex code categories[] = alter
+hex code categories[] = admin
+hex code categories[] = build
+
+; Information added by drupal.org packaging script on 2012-04-14
+version = "7.x-2.0-beta1+6-dev"
+core = "7.x"
+project = "hexagon"
+datestamp = "1334362763"
+

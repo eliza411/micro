@@ -1,0 +1,12 @@
+name        = Plex Debugger
+description = Provides debugging features.
+hexapi      = HEX_API
+weight      = 9999
+
+; global development_mode switch. The following can also be changed from the
+; theme settings form. http://DOMAIN/admin/appearance/settings/THEME_NAME
+settings[development_mode] = false
+
+; disables .info caching (this file), theme registry and all internal caches
+; held by Hexagon. This switch depends on 'development_mode'.
+settings[development_mode:no_caching] = false

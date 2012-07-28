@@ -1,0 +1,4 @@
+name        = Plex Files API
+description = API for abstracting file paths with custom name spaces.
+hexapi      = HEX_API
+protected   = true

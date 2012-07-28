@@ -1,0 +1,28 @@
+name        = Handlebar
+description = Custom theme for the drupalpdx micro events site, based on Hexagon
+screenshot  = images/screenshot.png
+base theme  = hex
+core        = 7.x
+php         = 5.3
+
+hex plugins[] = plex_theme
+; hex plugins[] = plex_debugger
+; hex plugins[] = plex_files
+
+; Default core regions.
+regions[sidebar_first]  = Left sidebar
+regions[sidebar_second] = Right sidebar
+regions[content]        = Content
+regions[header]         = Header
+regions[footer]         = Footer
+regions[highlighted]    = Highlight
+regions[help]           = Help
+regions[page_top]       = Page top
+regions[page_bottom]    = Page bottom
+
+; Style sheets.
+stylesheets[all][] = styles/screen.css
+stylesheets[all][] = styles/elements.css
+stylesheets[all][] = styles/typography.css
+stylesheets[all][] = styles/colors.css
+stylesheets[all][] = styles/style.css

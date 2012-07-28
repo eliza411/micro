@@ -1,0 +1,112 @@
+
+body {
+  padding: 0;
+  margin:  0;
+}
+
+#page {
+  width: 64em;
+  margin:  0 auto;
+  padding: 1em;
+}
+
+.region-content-wrapper,
+.region-sidebar-first,
+.region-sidebar-second {
+  float: left; /* LTR */
+}
+.region-content-wrapper {
+  width: 64em;
+}
+.region-sidebar-first,
+.region-sidebar-second {
+  width: 14em;
+}
+
+.one-sidebar .region-content-wrapper {
+  width: 48em; /* 64 (full width) - 14 (left sidebars) - 2 (margin) */
+}
+.one-sidebar .region-sidebar-first {
+  margin-left: -64em; /* LTR, 53 (content) + 15 (left sidebars) + 2 (margin) */
+}
+.sidebar-first .region-content-wrapper,
+.two-sidebars .region-content-wrapper {
+  margin-left: 16em; /* LTR, 14 (sidebar) + 2 (margin) */
+}
+
+.two-sidebars .region-content-wrapper {
+  width: 32em; /* 64 (full width) - 28 (two sidebars) - 4 (all margins) */
+}
+.two-sidebars .region-sidebar-first {
+  margin-left: -48em; /* LTR, 32 (content) + 14 (sidebar) + 2 (margin) */
+}
+
+.sidebar-second .region-sidebar-second,
+.two-sidebars .region-sidebar-second,
+.one-sidebar .region-sidebar-second {
+  margin-left: 2em; /* LTR */
+}
+
+.no-sidebars .region-content {
+  font-size: 1.2em;
+}
+
+#site-header,
+#page-header,
+#page-main,
+#main-content,
+.site-navigation,
+.content-header,
+.content,
+.region,
+.node {
+  margin-bottom: 1.5em;
+}
+
+#page-main {
+  margin-top: 1.5em;
+}
+
+.site-id,
+.site-slogan,
+.region-header,
+.region-footer,
+.region-footer .content,
+.region-page-top,
+.region-page-bottom {
+  margin: 0;
+}
+
+.site-branding {
+  float: left;       /* LTR */
+  margin-right: 1em; /* LTR */
+}
+.site-navigation {
+  float: right; /* LTR */
+}
+.region-header {
+  clear: right; /* LTR */
+  float: right; /* LTR */
+}
+.site-id {
+  width: 10em;
+  padding-top: .5em;
+}
+.site-id a {
+  text-decoration: none;
+}
+.site-id .logo {
+  float: left;         /* LTR */
+  margin-right: .25em; /* LTR */
+  margin-top: -.5em;
+}
+.site-id .site-slogan {
+  font-size: .6em;
+}
+
+ul.pager,
+ul.pager li {
+  display:inline;
+  margin: 0;
+  padding: 0;
+}

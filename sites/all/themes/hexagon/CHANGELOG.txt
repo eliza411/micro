@@ -1,0 +1,6 @@
+CHANGELOG.txt - This file will be included with your project's distribution. It should contain all fixes, changes, and additions between official releases of your project. It helps users and developers who upgrade to a new version to understand what has been changed or improved recently. See Commit messages (1) for best practices on maintaining this file.
+
+
+  Example: http://cvs.drupal.org/viewvc.py/drupal/contributions/modules/admin_menu/CHANGELOG.txt?view=co
+
+  (1) http://drupal.org/node/52287

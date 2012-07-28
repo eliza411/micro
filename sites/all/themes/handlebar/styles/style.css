@@ -1,0 +1,82 @@
+
+body {
+  padding: 0;
+  margin:  0;
+  background-image: url('../images/bg.png');
+}
+
+#page {
+  margin:  0 auto;
+  max-width: 1200px;
+  padding: 1em;
+}
+
+img, embed, object, video, frame {
+  max-width: 100%;
+}
+
+
+#site-header,
+#page-header,
+#page-main,
+#main-content,
+.site-navigation,
+.content-header,
+.content,
+.region,
+.node {
+  margin-bottom: 1.5em;
+}
+
+#page-main {
+  margin-top: 1.5em;
+}
+
+.site-id,
+.site-slogan,
+.region-header,
+.region-footer,
+.region-footer .content,
+.region-page-top,
+.region-page-bottom {
+  margin: 0;
+}
+
+.site-branding {
+  float: left;       /* LTR */
+  margin-right: 1em; /* LTR */
+}
+.site-navigation {
+  float: right; /* LTR */
+}
+.region-header {
+  clear: right; /* LTR */
+  float: right; /* LTR */
+}
+.site-id {
+  padding-top: .5em;
+}
+.site-id a {
+  text-decoration: none;
+}
+.site-id .logo {
+  float: left;         /* LTR */
+  margin-right: .25em; /* LTR */
+  margin-top: -.5em;
+}
+.site-id .site-slogan {
+  font-size: .6em;
+}
+
+ul.pager,
+ul.pager li {
+  display:inline;
+  margin: 0;
+  padding: 0;
+}
+
+@media screen and (max-width: 1288px) {
+  #page {
+    margin: 0 2%;
+  }
+}

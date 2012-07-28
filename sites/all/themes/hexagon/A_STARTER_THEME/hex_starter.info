@@ -1,0 +1,33 @@
+name        = Hexagon Starter
+description = Starter theme based on Hexagon.
+screenshot  = images/screenshot.png
+base theme  = hex
+core        = 7.x
+php         = 5.3
+
+hex plugins[] = plex_theme
+; hex plugins[] = plex_debugger
+; hex plugins[] = plex_files
+
+; Default core regions.
+regions[sidebar_first]  = Left sidebar
+regions[sidebar_second] = Right sidebar
+regions[content]        = Content
+regions[header]         = Header
+regions[footer]         = Footer
+regions[highlighted]    = Highlight
+regions[help]           = Help
+regions[page_top]       = Page top
+regions[page_bottom]    = Page bottom
+
+; Style sheets.
+stylesheets[all][] = styles/elements.css
+stylesheets[all][] = styles/colors.css
+stylesheets[all][] = styles/style.css
+
+; Information added by drupal.org packaging script on 2012-04-14
+version = "7.x-2.0-beta1+6-dev"
+core = "7.x"
+project = "hexagon"
+datestamp = "1334362763"
+

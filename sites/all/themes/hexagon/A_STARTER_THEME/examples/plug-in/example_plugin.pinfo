@@ -1,0 +1,53 @@
+name = Example Plug-in
+description = An example plug-in.
+
+; The hex api version. This is required.
+
+hexapi = 2.x
+
+; If protected, overriding the plug-in is not possible. This is useful when the
+; plug-in provides critical features that should not be altered.
+
+protected = false
+
+; Plug-in dependencies. If this plug-in is explicitly enabled, the dependencies
+; will enable themselves. 'auto enable' will not enable dependent plug-ins.
+;
+; dependencies[] = foo
+
+; Other dependencies. It can contain themes or modules. This is extensible.
+;
+; requirements[] = my_theme
+; requirements[] = views
+
+; Setting this to true will automatically enable it when it doesn't depend on
+; other components or when all defined dependents are available.
+
+auto enable = false
+
+; If a theme requires absoultely needs the plug-in, it's best to set it in the
+; theme .info file to lock it in place.
+;
+; hex plugin[] = example_plugin
+
+; Add styles.
+
+stylesheets[all][] = example-plugin.css
+
+; Or scripts.
+;
+; scripts[] = script.js
+
+; Define features provided by the plug-in. This is also possible from the theme.
+; This adds to the pool of feature toggles in the theme configuration form.
+
+feature set[color_me] = Color me! (example plug-in)
+feature set[flip_me]  = Flip me! (example plug-in)
+
+; To define a subset from the available features, set them through the .info
+; file in the theme as it's normally done. The display order in the theme
+; configuration form will reflect the order it is set in the .info file.
+; see http://drupal.org/node/171205#features
+;
+; feature[] = logo
+; feature[] = color_me

@@ -1,0 +1,20 @@
+h1, h2, h3, h4, h5, h6 {
+  font-family: BevanRegular, Helvetica, Arial, sans-serif;
+}
+
+@font-face {
+  font-family: JosefinSlabBold;
+  src: url('../fonts/josefin-slab/JosefinSlab-Bold.ttf');
+  font-weight:400;
+}
+
+@font-face {
+  font-family: 'BevanRegular';
+  src: url('../fonts/bevan/Bevan-webfont.eot');
+  src: url('../fonts/bevan/Bevan-webfont.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/bevan/Bevan-webfont.woff') format('woff'),
+       url('../fonts/bevan/Bevan-webfont.ttf') format('truetype'),
+       url('../fonts/bevan/Bevan-webfont.svg#BevanRegular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}

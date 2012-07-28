@@ -1,0 +1,16 @@
+
+body.color-me {
+  background-color: yellow;
+}
+body.flip-me {
+   -moz-transform-origin: 50% 50%;
+-webkit-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+     -o-transform-origin: 50% 50%;
+        transform-origin: 50% 50%;
+   -moz-transform: rotate(180deg);
+-webkit-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+     -o-transform: rotate(180deg);
+        transform: rotate(180deg);
+}

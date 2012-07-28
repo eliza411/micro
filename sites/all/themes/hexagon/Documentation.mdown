@@ -1,0 +1,107 @@
+This will be converted to html and included with the theme when done. This is a work in progress.
+
+# TOC
+
+*	[Introduction](#introduction)
+*	[Base Features](#base-features)
+	*	[Plug-in system](#base-features-plugins)
+		*	[Overview](#base-features-plugins-overview)
+		*	[Basic Requirements](#base-features-plugins-requirements)
+		*	[Themes vs. Plug-ins](#base-features-plugins-themes-vs-plugins)
+		*	[Theming Hooks](#base-features-plugins-theme-hooks)
+		*	[Alter Hooks](#base-features-plugins-alter-hooks)
+		*	[Activations](#base-features-plugins-activations)
+		*	[Overrides](#base-features-plugins-overrides)
+		*	[Guidelines](#base-features-plugins-guidelines)
+		*	[Examples](#base-features-plugins-examples)
+	*	[Theme Settings](#base-features-settings)
+		*	[Overview](#base-features-settings-overview)
+		*	[Defining Settings](#base-features-settings-define)
+		*	[Retrieving Settings](#base-features-settings-retrieve)
+		*	[Namespaces](#base-features-settings-namespaces)
+		*	[Parent conditions](#base-features-settings-parent-conditions)
+		*	[Settings Form](#base-features-settings-form)
+		*	[Theme Settings (Plug-in Considerations)](#base-features-settings-plugin)
+		*	[Guidelines](#base-features-settings-guidelines)
+		*	[Examples](#base-features-settings-examples)
+	*	[Feature Toggles](#base-features-toggles)
+		*	[Overview](#base-features-toggles-overview)
+		*	[Defining Features](#base-features-toggles-define)
+		*	[Limiting Exposure](#base-features-toggles-limit)
+		*	[Feature Toggles (Plug-in Considerations)](#base-features-toggles-plugin)
+		*	[Guidelines](#base-features-toggles-guidelines)
+		*	[Examples](#base-features-toggles-examples)
+	*	[Cache API](#base-features-caching)
+		*	[Overview](#base-features-caching-overview)
+		*	[Defining Caches](#base-features-caching-define)
+		*	[Cache API (Plug-in Considerations)](#base-features-caching-plugin)
+		*	[Guidelines](#base-features-caching-guidelines)
+		*	[Examples](#base-features-caching-examples)
+	*	[Tools](#base-features-tools)
+*	[Included Plug-ins](#included-plugins)
+	*	[Overview](#included-plugins-overview)
+	*	[Plex Debugger](#included-plugins-debugger) 
+	*	[Plex Files API](#included-plugins-files)
+	*	[Plex Theme Registry](#included-plugins-theme)
+*	[Tutorials](#tutorials)
+
+
+
+<a id="introduction" />
+# Introduction
+
+Hexagon is a starting point for building well organized and structured themes. It is a system within the Drupal theming system. At its core, it does not provide any functionality that your site visitors will notice. There are no user configurable options, no extra widgets to fiddle with, no differences whatsoever when rendering the page. What it does provide is the ability to abstract and reuse solutions to recurring theming problems.
+
+There are no base themes that are suited for all projects. Hexagon is no different, but its ability to abstract implementation details and the ability to disable unneeded solutions makes it a good candidate for most projects.
+
+This abstraction happens through plug-ins. They are close equivalents to the themes they are hosted in. They can contain their own theme functions, variable process functions, templates and much more. Hexagon base provides the framework while extra plug-ins will continually be evaluated and added making it even more powerful.
+
+Hexagon goals:
+
+*	Provide a way of keeping theming code organized and manageable.
+*	Provide functionality that is not coupled to any specific theme, i.e., write for reusability.
+*	Extend on known theming concepts from the core theming system and apply them to other areas.
+*	Make most of the add-on functionality opt-in. Don't make assumptions on what the theme developer wants or needs. Get out of the way!
+
+Although Hexagon is intended for theme developers, it can be a great starting point for others with less theming experience. Going forward, more plug-ins will be made available. Simply dropping in or activating an included plug-in is a lot easier than finding code snippets and figuring out where to paste them. And for the plug-ins that implement feature toggles, all that's needed is a simple checkbox in the theme settings form to get it working.
+
+<a id="base-features" />
+# Base Features
+
+This section will cover Hexagon base features. It is intended for theme developers. You should have a strong grasp of the core theming system.
+
+<a id="base-features-plugins" />
+## Plug-in System
+
+<a id="base-features-plugins-overview" />
+### Overview
+
+<a id="base-features-plugins-requirements" />
+### Basic Requirements
+
+<a id="base-features-plugins-themes-vs-plugins" />
+### Themes vs. Plug-ins
+
+<a id="base-features-plugins-theme-hooks" />
+### Theming Hooks
+
+<a id="base-features-plugins-alter-hooks" />
+### Alter Hooks
+
+<a id="base-features-plugins-activations" />
+### Activations
+
+<a id="base-features-plugins-overrides" />
+### Overrides
+
+<a id="base-features-plugins-guidelines" />
+### Guidelines
+
+<a id="base-features-plugins-examples" />
+### Examples
+
+
+
+
+# Included Plug-ins
+
