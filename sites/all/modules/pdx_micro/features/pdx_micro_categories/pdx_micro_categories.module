@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the PDX Micro Categories feature.
+ */
+
+include_once 'pdx_micro_categories.features.inc';

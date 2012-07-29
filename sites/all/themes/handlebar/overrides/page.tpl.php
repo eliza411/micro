@@ -12,6 +12,8 @@
     </div>
   <?php endif ?>
 
+  <?php print render($page['header']) ?>
+
   <?php if ($main_menu_links || $secondary_menu_links): ?>
     <div class="site-navigation">
       <?php print $main_menu_links ?>
@@ -19,7 +21,6 @@
     </div>
   <?php endif ?>
 
-    <?php print render($page['header']) ?>
   </div>
 
   <div id="green-bar">
