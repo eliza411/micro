@@ -22,8 +22,10 @@
     <?php print render($page['header']) ?>
   </div>
 
-  <div id="green-top" class="clearfix"></div>
-  <div id="green-bottom" class="clearfix"></div>
+  <div id="green-bar">
+    <div id="green-top"></div>
+    <div id="green-bottom"></div>
+  </div>
 
   <div id="page-header">
     <?php print $messages ?>

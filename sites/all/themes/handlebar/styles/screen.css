@@ -43,17 +43,7 @@ body {
   width: 97.91666666666666%;
   margin: 0 1.0416666666666665%;
 }
-.site-branding {
-  display: inline;
-  float: left;
-  width: 97.91666666666666%;
-  margin: 0 1.0416666666666665%;
-}
 .site-navigation {
-  display: inline;
-  float: left;
-  width: 72.91666666666666%;
-  margin: 0 1.0416666666666665%;
   float: right;
 }
 .header-wrapper {
@@ -70,6 +60,12 @@ body {
   margin-left: 0;
   margin-right: 0;
   width: 100%;
+}
+#green-bar {
+  display: inline;
+  float: left;
+  width: 97.91666666666666%;
+  margin: 0 1.0416666666666665%;
 }
 .region-content-wrapper {
   display: inline;

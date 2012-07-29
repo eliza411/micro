@@ -27,29 +27,29 @@ h1,h2,h3,h4,h5,h6 {
   line-height: 1;
 }
 h1 {
-  font-size: 1.7143em;        /* 24px */
-  padding: .1666em 0 .2916em; /* 4px 0 7px */
-  margin: .2916em 0;          /* 7px 0 */
+  font-size: 2.57145em;        /* 36px */
+  padding: .2499em 0 .4374em; /* 6px 0 10.5px */
+  margin: .4374em 0;          /* 10.5px 0 */
 }
 h2 {
-  font-size: 1.5714em;        /* 22px */
-  padding: .2727em 0 .3181em; /* 6px 0 7px */
-  margin: .3181em 0;          /* 7px 0 */
+  font-size: 2.3571em;        /* 33px */
+  padding: .40905 0 .47715em; /* 9px 0 10.5px */
+  margin: .47715em 0;          /* 10.5px 0 */
 }
 h3 {
-  font-size: 1.4286em;   /* 20px */
-  padding: .4em 0 .35em; /* 8px 0 7px*/
-  margin: .35em 0;       /* 7px 0 */
+  font-size: 2.1429em;   /* 30px */
+  padding: .6em 0 .525em; /* 12px 0 10.5px*/
+  margin: .525em 0;       /* 10.5px 0 */
 }
 h4 {
-  font-size: 1.2857em;         /* 18px */
-  padding: .5555em 0 .3888em;  /* 10px 0 7px */
-  margin: .3888em 0;           /* 7px 0 */
+  font-size: 1.92855em;         /* 27px */
+  padding: .83325em 0 .5832em;  /* 15px 0 10.5px */
+  margin: .5832em 0;           /* 10.5px 0 */
 }
 h5,h6 {
-  font-size: 1.1429em;      /* 16px */
-  padding: .75em 0 .4375em; /* 12px 0 7px */
-  margin: .4375em 0;        /* 7px 0 */
+  font-size: 1.71435em;      /* 24px */
+  padding: 1.125em 0 .65625em; /* 18px 0 10.5px */
+  margin: .65625em 0;        /* 10.5px 0 */
 }
 
 /*
