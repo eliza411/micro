@@ -8,6 +8,10 @@ body {
   background: url('../images/bg.png') no-repeat center bottom fixed;
 }
 
+body#tinymce {
+  background: #fff;
+}
+
 #page {
   margin:  0 auto;
   max-width: 1200px;
@@ -47,13 +51,25 @@ img, embed, object, video, frame {
 .site-branding {
   float: left;       /* LTR */
   margin-right: 1em; /* LTR */
+  margin-top: 1em;
 }
 .site-navigation {
-  float: right; /* LTR */
+  float: right;
+  clear: right;
+  margin-bottom: 0;
+  text-align: right;
+}
+.site-navigation ul.links.inline {
+  margin-bottom: 0.5em;
+  margin-top: 1.5em;
+}
+.site-navigation ul.links.inline a {
+  text-decoration: none;
 }
 .region-header {
   clear: right; /* LTR */
   float: right; /* LTR */
+  margin-bottom: 1em;
 }
 .site-id {
   padding-top: .5em;
@@ -65,14 +81,70 @@ img, embed, object, video, frame {
   float: left;         /* LTR */
   margin-right: .25em; /* LTR */
   margin-top: -.5em;
+  margin-bottom: .5em;
 }
 .site-id .site-slogan {
   font-size: .6em;
+     clear: both;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 380px;
+    text-align: center;
+}
+
+.region-header ul.menu,
+#site-header,
+#page {
+  padding-top: 0;
+  margin-top: 0;
+}
+
+#site-header {
+  margin-bottom: 0.5em;
 }
 
 .region-header ul.menu li.leaf {
   list-style-type: none;
   display: inline;
+}
+
+.region-header ul.menu li a {
+  color: #8ea447;
+  display: inline-block;
+  padding-top: 80px;
+  width: 105px;
+  text-align: center;
+  overflow: visible;
+}
+
+.region-header ul.menu li a.micro-alcohol-free {
+  background: url('../images/alcohol_free_inactive.png') no-repeat center top;
+}
+.region-header ul.menu li a.micro-family-friendly {
+  background: url('../images/family_inactive.png') no-repeat center top;
+}
+.region-header ul.menu li a.micro-liquor-centric {
+  background: url('../images/alcohol_inactive.png') no-repeat center top;
+}
+.region-header ul.menu li a.active.micro-alcohol-free,
+.region-header ul.menu li a.micro-alcohol-free:hover {
+  background: url('../images/alcohol_free_active.png') no-repeat center top;
+}
+.region-header ul.menu li a.active.micro-family-friendly,
+.region-header ul.menu li a.micro-family-friendly:hover {
+  background: url('../images/family_active.png') no-repeat center top;
+}
+.region-header ul.menu li a.active.micro-liquor-centric,
+.region-header ul.menu li a.micro-liquor-centric:hover {
+  background: url('../images/alcohol_active.png') no-repeat center top;
+}
+
+.site-navigation a,
+.site-navigation a.active {
+  color: #ba4f26;
+}
+.site-navigation a:hover {
+  color: #eeb05b;
 }
 
 #green-top {

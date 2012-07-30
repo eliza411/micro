@@ -2,6 +2,16 @@ h1, h2, h3, h4, h5, h6 {
   font-family: JosefinSlabBold, Helvetica, Arial, sans-serif;
 }
 
+.region-header ul.menu li.leaf a {
+  font-family: JosefinSlabBold,Helvetica,Arial,sans-serif;
+  text-decoration: none;
+}
+
+.site-navigation {
+  font-family: BevanRegular, Helvetica, Arial, sans-serif;
+  font-size: 1.21429em;
+}
+
 @font-face {
   font-family: JosefinSlabBold;
   src: url('../fonts/josefin-slab/JosefinSlab-Bold.ttf');

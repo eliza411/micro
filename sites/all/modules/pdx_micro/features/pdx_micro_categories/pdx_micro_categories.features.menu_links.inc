@@ -17,7 +17,11 @@ function pdx_micro_categories_menu_default_menu_links() {
     'router_path' => 'taxonomy/term/%',
     'link_title' => 'Alcohol-Free',
     'options' => array(
-      'attributes' => array(),
+      'attributes' => array(
+        'class' => array(
+          0 => 'micro-alcohol-free',
+        ),
+      ),
     ),
     'module' => 'menu',
     'hidden' => '0',
@@ -33,7 +37,11 @@ function pdx_micro_categories_menu_default_menu_links() {
     'router_path' => 'taxonomy/term/%',
     'link_title' => 'Family Friendly',
     'options' => array(
-      'attributes' => array(),
+      'attributes' => array(
+        'class' => array(
+          0 => 'micro-family-friendly',
+        ),
+      ),
     ),
     'module' => 'menu',
     'hidden' => '0',
@@ -49,7 +57,11 @@ function pdx_micro_categories_menu_default_menu_links() {
     'router_path' => 'taxonomy/term/%',
     'link_title' => 'Liquor-Centric',
     'options' => array(
-      'attributes' => array(),
+      'attributes' => array(
+        'class' => array(
+          0 => 'micro-liquor-centric',
+        ),
+      ),
     ),
     'module' => 'menu',
     'hidden' => '0',

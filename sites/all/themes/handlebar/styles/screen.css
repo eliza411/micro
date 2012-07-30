@@ -98,3 +98,16 @@ body {
   display: block;
   width: 100%;
 }
+@media screen and (max-width: 635px) {
+  .region-content-wrapper,
+  .region-sidebar-first,
+  .region-triptych-first,
+  .region-triptych-middle,
+  .region-triptych-last {
+    display: inline;
+    float: left;
+    width: 97.91666666666666%;
+    margin: 0 1.0416666666666665%;
+    left: 0;
+  }
+}
