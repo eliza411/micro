@@ -22,6 +22,20 @@ img, embed, object, video, frame {
   max-width: 100%;
 }
 
+ul {
+ padding-left: 0;
+}
+
+input, select, textarea {
+  border: 1px solid #ccc;
+}
+
+#edit-submit {
+  background: none repeat scroll 0 0 #8EA447;
+  color: #fff;
+  padding: 2px 7px;
+}
+
 #site-header,
 #page-header,
 #page-main,
@@ -107,6 +121,8 @@ img, embed, object, video, frame {
 .region-header ul.menu li.leaf {
   list-style-type: none;
   display: inline;
+  padding: 0;
+  margin: 0;
 }
 
 .region-header ul.menu li a {
@@ -217,6 +233,50 @@ ul.pager li {
 @media screen and (max-width: 1336px) {
   #page {
     margin: 0 4%;
+  }
+}
+
+@media screen and (max-width: 860px) {
+  .site-branding {
+    width: 50%;
+  }
+  .region-header ul.menu li a {
+    width: 102px;
+  }
+  .site-id .site-slogan {
+    margin-bottom: 1em;
+  }
+  .site-navigation {
+    text-align: center;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .site-branding {
+    margin-bottom: 1em;
+    width: 100%;
+  }
+  .site-id .logo {
+    display: block;
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .region-header .content {
+    margin-bottom: 0.5em;
+  }
+  .region-header ul.menu {
+    margin-bottom: 0;
+  }
+  .site-navigation ul.links.inline {
+    margin-top: 0;
+  }
+  .region-header {
+    width: 100%;
+  }
+  .region-header ul.menu li.leaf a {
+    width: 32%;
   }
 }
 
