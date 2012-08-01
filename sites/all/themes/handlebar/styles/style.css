@@ -52,6 +52,7 @@ img, embed, object, video, frame {
   float: left;       /* LTR */
   margin-right: 1em; /* LTR */
   margin-top: 1em;
+  max-width: 100%;
 }
 .site-navigation {
   float: right;
@@ -213,8 +214,14 @@ ul.pager li {
   padding: 0;
 }
 
-@media screen and (max-width: 1288px) {
+@media screen and (max-width: 1336px) {
   #page {
-    margin: 0 2%;
+    margin: 0 4%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  #page {
+    margin: 0;
   }
 }
