@@ -285,3 +285,13 @@ ul.pager li {
     margin: 0;
   }
 }
+
+.node .field-name-field-event-icon {
+  float: right;
+  padding: 0 0 10px 20px;
+ 
+}
+
+td.views-field-field-date {
+  min-width: 124px;
+}
