@@ -70,6 +70,14 @@ body {
   position: relative;
   left: 33.33333333333333%;
 }
+.no-sidebars .region-content-wrapper {
+  display: inline;
+  float: left;
+  width: 97.91666666666666%;
+  margin: 0 1.0416666666666665%;
+  position: relative;
+  left: 0%;
+}
 .region-sidebar-first {
   display: inline;
   float: left;

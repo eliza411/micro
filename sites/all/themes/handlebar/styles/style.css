@@ -18,7 +18,7 @@ body#tinymce {
   padding: 1em;
 }
 
-img, embed, object, video, frame {
+img, embed, object, video, frame, input, select, textarea {
   max-width: 100%;
 }
 
@@ -306,6 +306,9 @@ ul.pager li {
   #page {
     margin: 0;
   }
+  ul.primary {
+    white-space: normal;
+}
 }
 
 @media screen and (max-width: 464px) {
