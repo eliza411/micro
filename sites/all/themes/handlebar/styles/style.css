@@ -62,6 +62,10 @@ input, select, textarea {
   margin: 0;
 }
 
+h2..site-id {
+  padding: 0;
+}
+
 .site-branding {
   float: left;       /* LTR */
   margin-right: 1em; /* LTR */
@@ -228,6 +232,17 @@ input, select, textarea {
   content:"";
   position: absolute;
   right: -15px;
+}
+
+.field-name-field-category-image {
+  float: left;
+  margin: 0 1em 1em 0;
+}
+
+a.feed-icon {
+  clear: both;
+  display: block;
+  float: right;
 }
 
 ul.pager,

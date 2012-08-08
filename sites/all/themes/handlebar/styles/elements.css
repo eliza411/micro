@@ -33,7 +33,7 @@ h1 {
 }
 h2 {
   font-size: 2.3571em;        /* 33px */
-  padding: .40905 0 .47715em; /* 9px 0 10.5px */
+  padding: .40905em 0 .47715em; /* 9px 0 10.5px */
   margin: .47715em 0;          /* 10.5px 0 */
 }
 h3 {

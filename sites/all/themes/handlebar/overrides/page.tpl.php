@@ -28,16 +28,17 @@
     <div id="green-bottom"></div>
   </div>
 
-  <div id="page-header">
-    <?php print $messages ?>
-    <?php print render($page['highlighted']) ?>
-  </div>
+  <?php if ($messages || $page['highlighted']) : ?>
+    <div id="page-header">
+      <?php print $messages ?>
+      <?php print render($page['highlighted']) ?>
+    </div>
+  <?php endif ?>
 
   <div id="page-main" class="clearfix">
     <div class="region-content-wrapper">
-    <?php if ($breadcrumb || $title_prefix || $title || $title_suffix || $page['help']) : ?>
+    <?php if ($title_prefix || $title || $title_suffix || $page['help']) : ?>
       <div class="content-header">
-        <?php print $breadcrumb ?>
         <?php print render($title_prefix) ?>
         <?php if ($title) : ?><h1 class="page-title title"><?php print $title ?></h1><?php endif ?>
         <?php print render($title_suffix) ?>
