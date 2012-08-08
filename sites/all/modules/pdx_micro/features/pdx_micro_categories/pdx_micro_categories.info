@@ -18,6 +18,7 @@ features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:1
 features[menu_custom][] = menu-event-categories
 features[menu_links][] = menu-event-categories:taxonomy/term/10
+features[menu_links][] = menu-event-categories:taxonomy/term/14
 features[menu_links][] = menu-event-categories:taxonomy/term/2
 features[menu_links][] = menu-event-categories:taxonomy/term/9
 features[variable][] = colors_taxonomy_term_1_enabled

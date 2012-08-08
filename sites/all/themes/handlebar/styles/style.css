@@ -135,25 +135,32 @@ input, select, textarea {
 }
 
 .region-header ul.menu li a.micro-alcohol-free {
-  background-position: 50% -249px;
+  background-position: 50% -375px;
 }
 .region-header ul.menu li a.micro-family-friendly {
-  background-position: 50% -623px;
+  background-position: 50% -624px;
 }
 .region-header ul.menu li a.micro-liquor-centric {
-  background-position: 50% -374px;
+  background-position: 50% 0;
+}
+.region-header ul.menu li a.micro-professional {
+  background-position: 50% -874px;
 }
 .region-header ul.menu li a.active.micro-alcohol-free,
 .region-header ul.menu li a.micro-alcohol-free:hover {
-  background-position: 50% -125px;
+  background-position: 50% -250px;
 }
 .region-header ul.menu li a.active.micro-family-friendly,
 .region-header ul.menu li a.micro-family-friendly:hover {
-  background-position: 50% -499px; width:
+  background-position: 50% -500px; width:
 }
 .region-header ul.menu li a.active.micro-liquor-centric,
 .region-header ul.menu li a.micro-liquor-centric:hover {
-  background-position: 50% 0;
+  background-position: 50% -125px;
+}
+.region-header ul.menu li a.active.micro-professional,
+.region-header ul.menu li a.micro-professional:hover {
+  background-position: 50% -749px;
 }
 
 .site-navigation a,
@@ -236,9 +243,9 @@ ul.pager li {
   }
 }
 
-@media screen and (max-width: 860px) {
+@media screen and (max-width: 976px) {
   .site-branding {
-    width: 50%;
+    width: 40%;
   }
   .region-header ul.menu li a {
     width: 102px;
@@ -252,7 +259,7 @@ ul.pager li {
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 850px) {
   .site-branding {
     margin-bottom: 1em;
     width: 100%;
@@ -276,13 +283,23 @@ ul.pager li {
     width: 100%;
   }
   .region-header ul.menu li.leaf a {
-    width: 32%;
+    width: 24%;
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 506px) {
   #page {
     margin: 0;
+  }
+}
+
+@media screen and (max-width: 464px) {
+  .region-header ul.menu li.leaf a {
+    width: 49%;
+    margin-bottom: 0.5em;
+  }
+  .region-header .content {
+    margin-bottom: 0;
   }
 }
 
